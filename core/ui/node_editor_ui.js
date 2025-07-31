@@ -13,17 +13,19 @@ function initialiseBaklava () {
 			a: () => HTMLInterface(``, {
 				special_function: function (element) {
 					console.log(element);
-					var editor = CodeMirror(element, {
-						lineNumbers: true,
-						mode: "javascript",
-						theme: "nord",
-						value: "//test"
+					CodeMirrorInterface({
+						element: element
 					});
 				}
 			}),
 		},
 		outputs: {
 			b: () => HTMLInterface(`Output`, { has_node: true }),
+		},
+		
+		//Rubbish collection
+		onDestroy: function (e) {
+			cleanCustomNodesOnDestroy(this);
 		}
 	});
 	viewModel.editor.registerNodeType(ScriptNode);
@@ -43,7 +45,7 @@ function initialiseBaklava () {
 	global.baklava_logic_loop = setInterval(function(){
 		var all_nodes_in_graph = document.querySelectorAll(`.baklava-node:not([class*="--palette"])`);
 		var all_non_resizable_nodes_in_graph = document.querySelectorAll(`.baklava-node:not([class*="--palette"]):not(.resizable)`);
-		var node_map_obj = global.main.nodes.node_map;
+		var node_map_obj = global.main.nodes.map;
 		
 		for (let i = 0; i < all_nodes_in_graph.length; i++) {
 			var all_local_components = all_nodes_in_graph[i].querySelectorAll(`div[node] .baklava-input`);
