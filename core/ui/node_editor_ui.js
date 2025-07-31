@@ -18,16 +18,82 @@
 				file_controls: () => HTMLInterface(`
 					<button id = "add-file" class = "baklava-button">Add File</button>
 					<button id = "remove-file" class = "baklava-button">Remove File</button>
+					<br>
+					<button id = "load-file" class = "baklava-button">Load File</button>
 					<button id = "save-file" class = "baklava-button">Save File</button>
+					<br>
+					<button id = "delete-file" class = "baklava-button">Delete File</button>
+					<button id = "rename-file" class = "baklava-button">Rename File</button>
 				`, {
 					special_function: function (element) {
-						var node_el = getParentNodeFromElement(element);
-						
-						//Add File
-						node_el.querySelector(`#add-file`).addEventListener("click", (e) => {
-							console.log(e);
-							addFileToNode(node_el);
-						});
+						try {
+							var graph_obj = viewModel.displayedGraph;
+							var node_el = getParentNodeFromElement(element);
+							var node_obj = graph_obj.findNodeById(node_el.id);
+							
+							//Add File
+							node_el.querySelector(`#add-file`).addEventListener("click", (e) => {
+								try {
+									var file_name = node_el.querySelector(`.baklava-input[title="file_name"]`).value;
+									addFileToNode(node_el, file_name);
+								} catch (e) { console.error(e); }
+							});
+							//Remove File
+							node_el.querySelector(`#remove-file`).addEventListener("click", (e) => {
+								try {
+									removeFileFromNode(node_el);
+								} catch (e) { console.error(e); }
+							});
+							
+							//Load File
+							node_el.querySelector(`#load-file`).addEventListener("click", (e) => {
+								try {
+									var selected_file_name = node_obj.inputs.select_file_tab._value;
+									switchCodeFileOnNode(node_el, selected_file_name);
+								} catch (e) { console.error(e); }
+							})
+							//Save File
+							node_el.querySelector(`#save-file`).addEventListener("click", (e) => {
+								try {
+									var codemirror_obj = getCodeMirrorFromNode(node_el);
+									var selected_file_name = node_obj.inputs.select_file_tab._value;
+									
+									saveScriptFile(selected_file_name, codemirror_obj.editor.getValue());
+								} catch (e) { console.error(e); }
+							});
+							
+							//Delete File
+							node_el.querySelector(`#delete-file`).addEventListener("click", (e) => {
+								try {
+									var selected_file_name = node_obj.inputs.select_file_tab._value;
+									
+									var absolute_file_path = path.join(__dirname, "scripts", selected_file_name);
+									
+									if (window.confirm(`Are you sure you would like to delete ${absolute_file_path}?`)) {
+										fs.unlinkSync(absolute_file_path);
+										removeFileFromNode(node_el);
+										setCodeFileOnNode(node_el, undefined);
+									}
+								} catch (e) { console.error(e); }
+							})
+							
+							//Rename File
+							node_el.querySelector(`#rename-file`).addEventListener("click", (e) => {
+								try {
+									var file_name = node_el.querySelector(`.baklava-input[title="file_name"]`).value;
+									var selected_file_name = node_obj.inputs.select_file_tab._value;
+									
+									//Move file, then switchCodeFileOnNode
+									moveFile(selected_file_name, file_name);
+									removeFileFromNode(node_el);
+									
+									setTimeout(() => {
+										addFileToNode(node_el, file_name);
+										setCodeFileOnNode(node_el, file_name);
+									}, 100);
+								} catch (e) { console.error(e); }
+							});
+						} catch (e) { console.error(e); }
 					}
 				}),
 				select_file_tab: () => new BaklavaJS.RendererVue.SelectInterface("selected_file_name", "", []).setPort(false),
@@ -50,6 +116,9 @@
 						var node_obj = {};
 						
 						var node_logic_loop = setInterval(function(){
+							var graph_obj = viewModel.displayedGraph;
+							
+							var actual_node_obj = graph_obj.findNodeById(node_el.id);
 							var file_name_el = node_el.querySelector(`.baklava-input[title="file_name"]`);
 							var selected_file_el = node_el.querySelector(`.baklava-select[title="selected_file_name"]`);
 							var selected_file_value =  selected_file_el.getAttribute("modelvalue");
@@ -59,6 +128,10 @@
 								file_name_el.value = selected_file_value;
 								
 								//Set tracker
+								if (selected_file_value.length > 0)
+									try {
+										switchCodeFileOnNode(node_el, selected_file_value);
+									} catch (e) { console.warn(e); }
 								node_obj.selected_file = selected_file_value;
 							}
 						}, 100);

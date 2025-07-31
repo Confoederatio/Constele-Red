@@ -7,6 +7,7 @@
     width: 100vw;
 
     .baklava-button:not(.--block) {
+        margin-top: 0.45em;
         padding: 0.45em 0.75em;
     }
     .__dropdown {

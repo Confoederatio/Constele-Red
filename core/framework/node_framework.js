@@ -1,14 +1,13 @@
 //Initialise functions
 {
-	function addFileToNode (arg0_baklava_node_el) {
+	function addFileToNode (arg0_baklava_node_el, arg1_file_name) {
 		//Convert from parameters
 		var baklava_node_el = arg0_baklava_node_el;
+		var file_name = (arg1_file_name) ? arg1_file_name : "";
 		
 		//Declare local instance variables
 		var graph_obj = viewModel.displayedGraph;
 		var node_obj = graph_obj.findNodeById(baklava_node_el.id);
-		
-		var file_name_el = baklava_node_el.querySelector(`.baklava-input[title="file_name"]`);
 		var selected_file_el = baklava_node_el.querySelector(`.baklava-select[title="selected_file_name"]`);
 		var selected_obj = [];
 		
@@ -22,13 +21,22 @@
 		var new_file_exists = false;
 		
 		for (let i = 0; i < selected_obj.length; i++)
-			if (selected_obj[i].value == file_name_el.value)
+			if (selected_obj[i].value == file_name)
 				new_file_exists = true;
 		
 		if (!new_file_exists)
-			selected_obj.push({ text: file_name_el.value, value: file_name_el.value });
+			selected_obj.push({ text: file_name, value: file_name });
 		
+		//Set select component
 		node_obj.inputs.select_file_tab.items = selected_obj;
+		node_obj.inputs.select_file_tab._value = file_name;
+		
+		//Switch code file
+		try {
+			switchCodeFileOnNode(baklava_node_el, file_name);
+		} catch (e) {
+			console.error(e);
+		}
 	}
 	
 	function cleanCustomNodesOnDestroy (arg0_baklava_node_obj) {
@@ -56,6 +64,28 @@
 				
 				if (local_output.node) delete main.nodes.map[local_output.node.key];
 			}
+		}
+	}
+	
+	function getCodeMirrorFromNode (arg0_baklava_node_el, arg1_code) {
+		//Convert from parameters
+		var baklava_node_el = arg0_baklava_node_el;
+		var code = (arg1_code) ? arg1_code : "";
+		
+		//Declare local instance variables
+		var codemirror_map_obj = main.codemirror.map;
+		var dummy_codemirror_el = baklava_node_el.querySelector(`[id*="html-interface"]:has(.CodeMirror)`);
+		
+		//Iterate over all_codemirrors
+		var all_codemirrors = Object.keys(main.codemirror.map);
+		
+		for (let i = 0; i < all_codemirrors.length; i++) {
+			var local_codemirror = codemirror_map_obj[all_codemirrors[i]];
+			console.log(local_codemirror.dummy_el, dummy_codemirror_el);
+			
+			if (local_codemirror.dummy_el.isEqualNode(dummy_codemirror_el))
+				//Return statement
+				return local_codemirror;
 		}
 	}
 	
@@ -87,8 +117,136 @@
 		return element.parentElement.parentElement.parentElement.parentElement.parentElement;
 	}
 	
-	function switchFileOnNode (arg0_baklava_node_el) { //[WIP] - Finish function body
+	function moveFile (arg0_input_file_path, arg1_output_file_path) {
+		//Convert from parameters
+		var input_file_path = arg0_input_file_path;
+		var output_file_path = arg1_output_file_path;
+		
+		//Declare local instance variables
+		var absolute_input_path = path.join(__dirname, "scripts", input_file_path);
+		var absolute_output_path = path.join(__dirname, "scripts", output_file_path);
+		
+		if (absolute_input_path == absolute_output_path) return;
+		if (fs.existsSync(absolute_output_path))
+			if (!window.confirm(`${absolute_output_path} already exists. Would you like to overwrite it?`)) {
+				console.error(`${absolute_output_path} already exists. Address this conflict manually.`);
+				return;
+			}
+		
+		fs.mkdirSync(path.dirname(absolute_output_path), { recursive: true });
+		fs.renameSync(absolute_input_path, absolute_output_path);
+	}
 	
+	function removeFileFromNode (arg0_baklava_node_el, arg1_file_name) {
+		//Convert from parameters
+		var baklava_node_el = arg0_baklava_node_el;
+		var file_name = (arg1_file_name) ? arg1_file_name : "";
+		
+		//Declare local instance variables
+		var graph_obj = viewModel.displayedGraph;
+		var node_obj = graph_obj.findNodeById(baklava_node_el.id);
+		var selected_file_el = baklava_node_el.querySelector(`.baklava-select[title="selected_file_name"]`);
+		var selected_index = -1;
+		var selected_items = node_obj.inputs.select_file_tab.items;
+		
+		//Find selected_index; Iterate over all items in node_obj.inputs.select_file_tab.items
+		for (let i = 0; i < selected_items.length; i++) {
+			var local_item = selected_items[i];
+			
+			if (local_item.value == node_obj.inputs.select_file_tab._value) {
+				selected_index = i;
+				break;
+			}
+		}
+		
+		if (selected_items.length > 1) {
+			//Attempt to see if a backwards item exists
+			if (selected_items[selected_index - 1]) {
+				switchCodeFileOnNode(baklava_node_el, selected_items[selected_index - 1].value);
+			}
+			//Attempt to see if a forwards item exists
+			else if (selected_items[selected_index + 1]) {
+				switchCodeFileOnNode(baklava_node_el, selected_items[selected_index + 1].value);
+			}
+		} else {
+			setCodeFileOnNode(baklava_node_el, undefined);
+		}
+		if (selected_index != -1)
+			node_obj.inputs.select_file_tab.items.splice(selected_index, 1);
+		console.log(`Selected index:`, selected_index);
+	}
+	
+	function saveScriptFile (arg0_file_path, arg1_code) {
+		//Convert from parameters
+		var file_path = arg0_file_path;
+		var code = arg1_code;
+		
+		//Declare local instance variables
+		var absolute_file_path = path.join(__dirname, "scripts", file_path);
+		
+		//Create file if it doesn't exist
+		if (!fs.existsSync(absolute_file_path)) {
+			fs.mkdirSync(path.dirname(absolute_file_path), { recursive: true });
+			fs.writeFileSync(absolute_file_path, "");
+		}
+		
+		if (code)
+			fs.writeFileSync(absolute_file_path, code);
+	}
+	
+	function setCodeFileOnNode (arg0_baklava_node_el, arg1_file_path) {
+		//Convert from parameters
+		var baklava_node_el = arg0_baklava_node_el;
+		var file_path = arg1_file_path;
+		
+		//Declare local instance variables
+		var graph_obj = viewModel.displayedGraph;
+		
+		var codemirror_obj = getCodeMirrorFromNode(baklava_node_el);
+		var node_obj = graph_obj.findNodeById(baklava_node_el.id);
+		var selected_file_component = node_obj.inputs.select_file_tab;
+		
+		//Set value
+		if (file_path) {
+			main.codemirror.map[codemirror_obj.key].file = file_path;
+			selected_file_component._value = file_path;
+		} else {
+			console.log(codemirror_obj)
+			main.codemirror.map[codemirror_obj.key].file = undefined;
+			selected_file_component._value = "";
+		}
+	}
+	
+	function setCodeOnNode (arg0_baklava_node_el, arg1_code) {
+		//Convert from parameters
+		var baklava_node_el = arg0_baklava_node_el;
+		var code = (arg1_code) ? arg1_code : "";
+		
+		//Declare local instance variables
+		var codemirror_obj = getCodeMirrorFromNode(baklava_node_el);
+		
+		//Set value
+		main.codemirror.map[codemirror_obj.key].editor.setValue(code);
+	}
+	
+	function switchCodeFileOnNode (arg0_baklava_node_el, arg1_file_path) {
+		//Convert from parameters
+		var baklava_node_el = arg0_baklava_node_el;
+		var file_path = arg1_file_path;
+		
+		//Declare local instance variables
+		console.log(file_path);
+		var absolute_file_path = path.join(__dirname, "scripts", file_path);
+		
+		//Create file if it doesn't exist
+		saveScriptFile(file_path, undefined);
+		
+		//Set file content
+		//console.log(global.test = fs.statSync(absolute_file_path));
+		var file_content = fs.readFileSync(absolute_file_path, "utf8");
+		
+		setCodeOnNode(baklava_node_el, file_content);
+		setCodeFileOnNode(baklava_node_el, file_path);
 	}
 }
 
@@ -137,7 +295,8 @@
 			dummy_el: options.element,
 			editor: codemirror_editor,
 			element: codemirror_el,
-			file: options.input_file_path
+			file: options.input_file_path,
+			key: codemirror_id
 		};
 		
 		//Local instance functions
