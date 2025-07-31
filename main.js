@@ -2,8 +2,8 @@ var { app, BrowserWindow, dialog, ipcMain, session } = require("electron");
 var path = require("path");
 var { performance } = require("perf_hooks");
 
+var constele_version = "0.1b";
 var latest_fps = 0;
-var vercengen_version = "0.6b";
 var title_update_interval;
 var win;
 
@@ -40,7 +40,7 @@ var win;
 
       var heap_used_mb = (memory_usage.heapUsed/1024/1024).toFixed(2);
       var rss_mb = (memory_usage.rss/1024/1024).toFixed(2);
-      var title_string = `Vercengen ${vercengen_version} - FPS: ${latest_fps} | RAM: RSS ${rss_mb}MB/Heap ${heap_used_mb}MB`;
+      var title_string = `Constele Red ${constele_version} - FPS: ${latest_fps} | RAM: RSS ${rss_mb}MB/Heap ${heap_used_mb}MB`;
 
       win.setTitle(title_string);
     }, 1000);
