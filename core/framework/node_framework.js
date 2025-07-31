@@ -45,12 +45,71 @@
 		if (!options.element) options.element = document.createElement("div");
 		
 		//Declare local instance variables
-		var codemirror_editor = CodeMirror(options.element, {
+		var codemirror_el = document.createElement("div");
+		var codemirror_overlay_el = document.getElementById("codemirror-overlay");
+			codemirror_overlay_el.appendChild(codemirror_el);
+		var codemirror_map_obj = main.codemirror.map;
+			
+		//Dummy editor (not visible)
+		var codemirror_dummy_editor = CodeMirror(options.element, {
 			lineNumbers: true,
 			mode: "javascript",
 			theme: "nord",
-			value: "//test"
+			value: "//Below Interface - You should never see this."
 		});
+		
+		//Actual editor
+		var codemirror_editor = CodeMirror(codemirror_el, {
+			lineNumbers: true,
+			mode: "javascript",
+			theme: "nord",
+			value: "//Actual Interface"
+		});
+		
+		//Local instance functions
+		{
+			var running = true;
+			function syncOverlay() {
+				if (!options.element.isConnected) {
+					running = false;
+					// Remove overlay from DOM
+					if (codemirror_el.parentNode) {
+						codemirror_el.parentNode.removeChild(codemirror_el);
+					}
+					// Optionally, clean up CodeMirror instance
+					if (codemirror_editor) {
+						codemirror_editor.toTextArea && codemirror_editor.toTextArea();
+						// Or codemirror_editor.getWrapperElement().remove() if needed
+					}
+					return;
+				}
+				
+				var rect = options.element.getBoundingClientRect();
+				var scale = getBaklavaScale();
+				
+				// Overlay matches the node's on-screen size
+				codemirror_el.style.position = "fixed";
+				codemirror_el.style.left = rect.left + "px";
+				codemirror_el.style.top = rect.top + "px";
+				codemirror_el.style.width = rect.width + "px";
+				codemirror_el.style.height = rect.height + "px";
+				codemirror_el.style.zIndex = 9999;
+				codemirror_el.style.overflow = "hidden";
+				
+				// CodeMirror fills the overlay, font-size matches scale
+				var cmRoot = codemirror_el.querySelector('.CodeMirror');
+				if (cmRoot) {
+					cmRoot.style.width = "100%";
+					cmRoot.style.height = "100%";
+					cmRoot.style.fontSize = (scale * 100) + "%";
+				}
+				codemirror_editor.refresh();
+				
+				requestAnimationFrame(syncOverlay);
+			}
+		}
+		
+		syncOverlay();
 	}
 	
 	function HTMLInterface (arg0_el, arg1_options) {

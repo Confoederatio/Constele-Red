@@ -6,8 +6,21 @@
     height: 100vh;
     width: 100vw;
 
+
     .baklava-node {
         max-width: none;
-        overflow: visible !important;
+        resize: both;
+        position: relative;
+
+        .__title {
+            overflow-x: visible;
+            white-space: nowrap;
+        }
+
+        .__content {
+            height: calc(100% - 32px);
+            overflow-y: clip;
+            overflow-x: hidden;
+        }
     }
 }

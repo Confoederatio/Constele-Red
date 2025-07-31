@@ -82,6 +82,7 @@
    * elementDragHandler() - Provides a Window interface without CSS styling for an element. .header refers to the draggable header at the top.
    * @param {HTMLElement} arg0_el
    * @param {Object} [arg1_options]
+   *  @param {boolean} [arg1_options.allow_overflow=false]
    *  @param {boolean} [arg1_options.draggable=true]
    *  @param {boolean} [arg1_options.is_resizable=false]
    *  @param {boolean} [arg1_options.unbounded=false]
@@ -109,7 +110,8 @@
     //Add resize handle styles
     el.style.position = 'absolute';
     el.style.resize = 'none'; // disable default resize
-    el.style.overflow = 'hidden';
+    if (!options.allow_overflow)
+      el.style.overflow = 'hidden';
     
     //Add resize functionality if enabled
     if (options.is_resizable) {
