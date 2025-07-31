@@ -49,9 +49,10 @@ global.path = require("path");
       "core"
     ],
     special_function: function () {
+      initialiseGlobal();
+      initialiseBaklava();
     }
   });
 
-  initialiseGlobal();
   trackPerformance();
 }

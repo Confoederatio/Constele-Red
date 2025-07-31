@@ -5,4 +5,9 @@
 
     height: 100vh;
     width: 100vw;
+
+    .baklava-node {
+        max-width: none;
+        overflow: visible !important;
+    }
 }
