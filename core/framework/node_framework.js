@@ -102,7 +102,7 @@
 				codemirror_el.style.top = rect.top + "px";
 				codemirror_el.style.width = rect.width + "px";
 				codemirror_el.style.height = rect.height + "px";
-				codemirror_el.style.zIndex = 9999;
+				codemirror_el.style.zIndex = 1;
 				codemirror_el.style.overflow = "hidden";
 				
 				// CodeMirror fills the overlay, font-size matches scale

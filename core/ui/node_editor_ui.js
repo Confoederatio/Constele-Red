@@ -74,13 +74,15 @@
 				}
 				
 			}
-			for (let i = 0; i < all_non_resizable_nodes_in_graph.length; i++)
+			
+			//[WIP] - Experimental drag optioning. Doesn't work currently
+			/*for (let i = 0; i < all_non_resizable_nodes_in_graph.length; i++)
 				elementDragHandler(all_non_resizable_nodes_in_graph[i], {
 					allow_overflow: true,
 					draggable: false,
 					is_resizable: true,
 					unbounded: true
-				});
+				});*/
 		}, 100);
 	}
 }
