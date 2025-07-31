@@ -4,7 +4,9 @@
   "description": "Universal Framework variant for Browser/Electron versions.",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
+    "dev": "vite",
+    "build": "vite build",
+    "start": "npm run build && electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,6 +24,11 @@
   "author": "Vis/Australis",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^29.0.1"
+    "@vitejs/plugin-vue": "^6.0.1",
+    "electron": "^29.0.1",
+    "vite": "^7.0.6"
+  },
+  "dependencies": {
+    "vue": "^3.5.18"
   }
 }

@@ -1,5 +1,6 @@
 //Initialise functions
 {
+	/*
 	function initialiseVercengenWindowsDemo () {
 		//Declare local instance variables
 		var margin_px = 4;
@@ -238,4 +239,5 @@
 			}
 		});
 	}
+	*/
 }

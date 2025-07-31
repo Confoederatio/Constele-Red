@@ -49,7 +49,6 @@ global.path = require("path");
       "core"
     ],
     special_function: function () {
-      initialiseVercengenWindowsDemo();
     }
   });
 
