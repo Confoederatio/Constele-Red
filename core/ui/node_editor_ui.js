@@ -11,15 +11,29 @@
 		
 		const ScriptNode = BaklavaJS.Core.defineNode({
 			type: "Script Node",
-			events: {
-				beforeSetValue: function (e) {
-					console.log(e);
-				}
-			},
+			
 			inputs: {
 				input_dependency: () => HTMLInterface(`Input (Dependency)`, { has_node: true }),
-				file_name: () => new BaklavaJS.RendererVue.TextInputInterface("File Name", "test.js").setPort(false),
-				a: () => HTMLInterface(``, {
+				
+				file_controls: () => HTMLInterface(`
+					<button id = "add-file" class = "baklava-button">Add File</button>
+					<button id = "remove-file" class = "baklava-button">Remove File</button>
+					<button id = "save-file" class = "baklava-button">Save File</button>
+				`, {
+					special_function: function (element) {
+						var node_el = getParentNodeFromElement(element);
+						
+						//Add File
+						node_el.querySelector(`#add-file`).addEventListener("click", (e) => {
+							console.log(e);
+							addFileToNode(node_el);
+						});
+					}
+				}),
+				select_file_tab: () => new BaklavaJS.RendererVue.SelectInterface("selected_file_name", "", []).setPort(false),
+				file_name: () => new BaklavaJS.RendererVue.TextInputInterface("file_name", "test.js").setPort(false),
+				
+				codemirror_editor: () => HTMLInterface(``, {
 					special_function: function (element) {
 						console.log(element);
 						CodeMirrorInterface({
@@ -29,7 +43,29 @@
 				}),
 			},
 			outputs: {
-				b: () => HTMLInterface(`Output`, { has_node: true }),
+				output: () => HTMLInterface(`Output`, { has_node: true }),
+				initialisation: () => HTMLInterface(``, {
+					special_function: function (element) {
+						var node_el = getParentNodeFromElement(element);
+						var node_obj = {};
+						
+						var node_logic_loop = setInterval(function(){
+							var file_name_el = node_el.querySelector(`.baklava-input[title="file_name"]`);
+							var selected_file_el = node_el.querySelector(`.baklava-select[title="selected_file_name"]`);
+							var selected_file_value =  selected_file_el.getAttribute("modelvalue");
+							
+							//.onchange handler for selected_file_value
+							if (node_obj.selected_file != selected_file_value) {
+								file_name_el.value = selected_file_value;
+								
+								//Set tracker
+								node_obj.selected_file = selected_file_value;
+							}
+						}, 100);
+						
+						console.log(node_el);
+					}
+				})
 			},
 			
 			//Rubbish collection
@@ -72,8 +108,10 @@
 						}
 					}
 				}
-				
 			}
+			
+			//Update trackers
+			main.nodes.graph = getGraphConnections();
 			
 			//[WIP] - Experimental drag optioning. Doesn't work currently
 			/*for (let i = 0; i < all_non_resizable_nodes_in_graph.length; i++)

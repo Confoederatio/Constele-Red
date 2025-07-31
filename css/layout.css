@@ -5,4 +5,11 @@
 
     height: 100vh;
     width: 100vw;
+
+    .baklava-button:not(.--block) {
+        padding: 0.45em 0.75em;
+    }
+    .__dropdown {
+        position: relative !important;
+    }
 }
