@@ -49,6 +49,8 @@
 		var codemirror_overlay_el = document.getElementById("codemirror-overlay");
 			codemirror_overlay_el.appendChild(codemirror_el);
 		var codemirror_map_obj = main.codemirror.map;
+		
+		var codemirror_id = generateRandomID(codemirror_map_obj);
 			
 		//Dummy editor (not visible)
 		var codemirror_dummy_editor = CodeMirror(options.element, {
@@ -66,23 +68,30 @@
 			value: "//Actual Interface"
 		});
 		
+		codemirror_map_obj[codemirror_id] = {
+			dummy_editor: codemirror_dummy_editor,
+			dummy_el: options.element,
+			editor: codemirror_editor,
+			element: codemirror_el
+		};
+		
 		//Local instance functions
 		{
-			var running = true;
+			function close () {
+				//Remove overlay from DOM; clean up CodeMirror instance
+				if (codemirror_el.parentNode)
+					codemirror_el.parentNode.removeChild(codemirror_el);
+				if (codemirror_editor)
+					codemirror_editor.toTextArea && codemirror_editor.toTextArea();
+				
+				//Delete from codemirror_map_obj
+				delete codemirror_map_obj[codemirror_id];
+			}
+			
 			function syncOverlay() {
-				if (!options.element.isConnected) {
-					running = false;
-					// Remove overlay from DOM
-					if (codemirror_el.parentNode) {
-						codemirror_el.parentNode.removeChild(codemirror_el);
-					}
-					// Optionally, clean up CodeMirror instance
-					if (codemirror_editor) {
-						codemirror_editor.toTextArea && codemirror_editor.toTextArea();
-						// Or codemirror_editor.getWrapperElement().remove() if needed
-					}
-					return;
-				}
+				if (!codemirror_map_obj[codemirror_id]) return;
+				if (!options.element.isConnected)
+					close();
 				
 				var rect = options.element.getBoundingClientRect();
 				var scale = getBaklavaScale();
