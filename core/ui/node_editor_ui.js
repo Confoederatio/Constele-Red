@@ -148,7 +148,7 @@
 		});
 		viewModel.editor.registerNodeType(ScriptNode);
 		
-		const TestNode = BaklavaJS.Core.defineNode({
+		/*const TestNode = BaklavaJS.Core.defineNode({
 			type: "Test Node",
 			inputs: {
 				a: () => new BaklavaJS.RendererVue.TextareaInputInterface("Hello", "world")
@@ -157,7 +157,7 @@
 				b: () => new BaklavaJS.RendererVue.TextareaInputInterface("Hello", "world")
 			}
 		});
-		viewModel.editor.registerNodeType(TestNode);
+		viewModel.editor.registerNodeType(TestNode);*/
 		
 		//Logic loop handler
 		global.baklava_logic_loop = setInterval(function(){
@@ -195,5 +195,11 @@
 					unbounded: true
 				});*/
 		}, 100);
+		
+		setTimeout(() => {
+			//Load Handler; initialise toolbar
+			loadState();
+			initialiseBaklavaJSToolbar();
+		}, 1000);
 	}
 }
