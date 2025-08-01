@@ -55,4 +55,11 @@ global.path = require("path");
   });
 
   trackPerformance();
+  
+  window.initialise_toolbar_loop = setInterval(function(){
+    try {
+      initialiseToolbar();
+      clearInterval(window.initialise_toolbar_loop);
+    } catch (e) {}
+  });
 }
