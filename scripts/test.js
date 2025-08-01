@@ -1,1 +1,1 @@
-var test = 5;
+global.test = 5;

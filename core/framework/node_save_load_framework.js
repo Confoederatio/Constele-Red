@@ -65,8 +65,9 @@
 			if (!all_node_els[i].getAttribute("id")) continue;
 			return_obj[all_node_els[i].id] = {};
 			
+			var node_obj = graph_obj.findNodeById(all_node_els[i].id);
+			
 			if (all_node_els[i].getAttribute("data-node-type") == "Script Node") {
-				var node_obj = graph_obj.findNodeById(all_node_els[i].id);
 				var save_node_obj = return_obj[all_node_els[i].id];
 				
 				save_node_obj.select_file_tab = {
