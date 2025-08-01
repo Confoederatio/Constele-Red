@@ -7,8 +7,8 @@ global.vm = require("vm");
 		try {
 			global.args = args;
 			
-			var result = await vm.runInThisContext("args", `
-				return (async () => {
+			var result = await vm.runInThisContext(`
+				(async () => {
 					${code}
 				})();
 			`);
