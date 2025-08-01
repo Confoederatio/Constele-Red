@@ -6,7 +6,10 @@
     height: 100vh;
     width: 100vw;
 
+    /* -- Disable subgraph; it breaks custom features for now -- */
     .baklava-toolbar-entry[title="Create Subgraph"] { display: none; }
+
+    /* -- Baklava Node layouts -- */
     .baklava-button:not(.--block) {
         margin-top: 0.45em;
         padding: 0.45em 0.75em;
