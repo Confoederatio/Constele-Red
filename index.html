@@ -9,6 +9,7 @@
     <!-- UF, CSS Imports -->
     <link rel = "stylesheet" href = "./css/global.css">
     <link rel = "stylesheet" href = "./css/layout.css">
+    <link rel = "stylesheet" href = "./css/topbar/topbar.css">
     <link rel = "shortcut icon" href = "public/favicon.png">
 
     <!-- UF, CSS Imports -->
@@ -29,15 +30,24 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js" integrity="sha512-I6CdJdruzGtvDyvdO4YsiAq+pkWf2efgd1ZUSK2FnM/u2VuRASPC7GowWQrWyjxCZn6CT89s3ddGI+be0Ak9Fg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   </head>
   <body>
-    <div id = "topbar"></div>
-    <div id = "node-editor-container" class = "active" tab = "true">
-      <div id = "node-editor"></div>
-      <div id = "codemirror-overlay"></div>
+    <div id = "topbar" class = "topbar">
+      <div class = "tab active" id = "node-editor-topbar">
+        <span class = "title">Node Editor</span>
+      </div>
+      <div class = "tab" id = "map-editor-topbar">
+        <span class = "title">Map Editor</span>
+      </div>
     </div>
-    <div id = "maptalks-editor-container" class = "display-none" tab = "true">
-      <div id = "map"></div>
-      <div id = "right-sidebar">
-        <div id = "codemirror-editor"></div>
+    <div id = "scene">
+      <div id = "node-editor-container" class = "active" tab = "true">
+        <div id = "node-editor"></div>
+        <div id = "codemirror-overlay"></div>
+      </div>
+      <div id = "maptalks-editor-container" class = "display-none" tab = "true">
+        <div id = "map"></div>
+        <div id = "right-sidebar">
+          <div id = "codemirror-editor"></div>
+        </div>
       </div>
     </div>
 

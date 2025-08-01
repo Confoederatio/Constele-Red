@@ -6,6 +6,9 @@
     font-family: "Karla";
     font-weight: 300;
 
+    .tab:first-child {
+        margin-left: 0.25rem;
+    }
     .tab {
         border-radius: 4px;
         cursor: default;
