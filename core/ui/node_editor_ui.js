@@ -35,68 +35,85 @@
 							var node_el = getParentNodeFromElement(element);
 							var node_obj = graph_obj.findNodeById(node_el.id);
 							
-							//Add File
-							node_el.querySelector(`#add-file`).addEventListener("click", (e) => {
-								try {
-									var file_name = node_el.querySelector(`.baklava-input[title="file_name"]`).value;
-									addFileToNode(node_el, file_name);
-								} catch (e) { console.error(e); }
-							});
-							//Remove File
-							node_el.querySelector(`#remove-file`).addEventListener("click", (e) => {
-								try {
-									removeFileFromNode(node_el);
-								} catch (e) { console.error(e); }
-							});
-							
-							//Load File
-							node_el.querySelector(`#load-file`).addEventListener("click", (e) => {
-								try {
-									var selected_file_name = node_obj.inputs.select_file_tab._value;
-									switchCodeFileOnNode(node_el, selected_file_name);
-								} catch (e) { console.error(e); }
-							})
-							//Save File
-							node_el.querySelector(`#save-file`).addEventListener("click", (e) => {
-								try {
-									var codemirror_obj = getCodeMirrorFromNode(node_el);
-									var selected_file_name = node_obj.inputs.select_file_tab._value;
-									
-									saveScriptFile(selected_file_name, codemirror_obj.editor.getValue());
-								} catch (e) { console.error(e); }
-							});
-							
-							//Delete File
-							node_el.querySelector(`#delete-file`).addEventListener("click", (e) => {
-								try {
-									var selected_file_name = node_obj.inputs.select_file_tab._value;
-									
-									var absolute_file_path = path.join(__dirname, "scripts", selected_file_name);
-									
-									if (window.confirm(`Are you sure you would like to delete ${absolute_file_path}?`)) {
-										fs.unlinkSync(absolute_file_path);
-										removeFileFromNode(node_el);
-										setCodeFileOnNode(node_el, undefined);
-									}
-								} catch (e) { console.error(e); }
-							})
-							
-							//Rename File
-							node_el.querySelector(`#change-file-path`).addEventListener("click", (e) => {
-								try {
-									var file_name = node_el.querySelector(`.baklava-input[title="file_name"]`).value;
-									var selected_file_name = node_obj.inputs.select_file_tab._value;
-									
-									//Move file, then switchCodeFileOnNode
-									moveFile(selected_file_name, file_name);
-									removeFileFromNode(node_el);
-									
-									setTimeout(() => {
+							//File Operations
+							{
+								//Add File
+								node_el.querySelector(`#add-file`).addEventListener("click", (e) => {
+									try {
+										var file_name = node_el.querySelector(`.baklava-input[title="file_name"]`).value;
 										addFileToNode(node_el, file_name);
-										setCodeFileOnNode(node_el, file_name);
-									}, 100);
-								} catch (e) { console.error(e); }
-							});
+									} catch (e) { console.error(e); }
+								});
+								//Remove File
+								node_el.querySelector(`#remove-file`).addEventListener("click", (e) => {
+									try {
+										removeFileFromNode(node_el);
+									} catch (e) { console.error(e); }
+								});
+								
+								//Load File
+								node_el.querySelector(`#load-file`).addEventListener("click", (e) => {
+									try {
+										var selected_file_name = node_obj.inputs.select_file_tab._value;
+										switchCodeFileOnNode(node_el, selected_file_name);
+									} catch (e) { console.error(e); }
+								})
+								//Save File
+								node_el.querySelector(`#save-file`).addEventListener("click", (e) => {
+									try {
+										var codemirror_obj = getCodeMirrorFromNode(node_el);
+										var selected_file_name = node_obj.inputs.select_file_tab._value;
+										
+										saveScriptFile(selected_file_name, codemirror_obj.editor.getValue());
+									} catch (e) { console.error(e); }
+								});
+								
+								//Delete File
+								node_el.querySelector(`#delete-file`).addEventListener("click", (e) => {
+									try {
+										var selected_file_name = node_obj.inputs.select_file_tab._value;
+										
+										var absolute_file_path = path.join(__dirname, "scripts", selected_file_name);
+										
+										if (window.confirm(`Are you sure you would like to delete ${absolute_file_path}?`)) {
+											fs.unlinkSync(absolute_file_path);
+											removeFileFromNode(node_el);
+											setCodeFileOnNode(node_el, undefined);
+										}
+									} catch (e) { console.error(e); }
+								})
+								
+								//Rename File
+								node_el.querySelector(`#change-file-path`).addEventListener("click", (e) => {
+									try {
+										var file_name = node_el.querySelector(`.baklava-input[title="file_name"]`).value;
+										var selected_file_name = node_obj.inputs.select_file_tab._value;
+										
+										//Move file, then switchCodeFileOnNode
+										moveFile(selected_file_name, file_name);
+										removeFileFromNode(node_el);
+										
+										setTimeout(() => {
+											addFileToNode(node_el, file_name);
+											setCodeFileOnNode(node_el, file_name);
+										}, 100);
+									} catch (e) { console.error(e); }
+								});
+							}
+							
+							//Processing Tasks
+							{
+								node_el.querySelector(`#run-task`).addEventListener("click", (e) => {
+									runDAGFromNode(node_el).then((e) => {
+										console.log(`Task finished.`);
+									});
+								});
+								node_el.querySelector(`#run-only-this-task`).addEventListener("click", (e) => {
+									runTask(getNodeCode(node_el)).then((e) => {
+										console.log(`Task finished.`);
+									});
+								});
+							}
 						} catch (e) { console.error(e); }
 					}
 				}),

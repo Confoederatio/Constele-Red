@@ -81,32 +81,11 @@
 		
 		for (let i = 0; i < all_codemirrors.length; i++) {
 			var local_codemirror = codemirror_map_obj[all_codemirrors[i]];
-			console.log(local_codemirror.dummy_el, dummy_codemirror_el);
 			
 			if (local_codemirror.dummy_el.isEqualNode(dummy_codemirror_el))
 				//Return statement
 				return local_codemirror;
 		}
-	}
-	
-	function getGraphConnections () {
-		//Declare local instance variables
-		var all_connections = viewModel.displayedGraph._connections;
-		var return_obj = {};
-		
-		//Iterate over all_connections
-		for (var i = 0; i < all_connections.length; i++) {
-			var local_from_connection = all_connections[i].from.id;
-			var local_to_connection = all_connections[i].to.id;
-			
-			if (!return_obj[local_from_connection]) return_obj[local_from_connection] = {
-				outputs: []
-			};
-			return_obj[local_from_connection].outputs.push(local_to_connection);
-		}
-		
-		//Return statement
-		return return_obj;
 	}
 	
 	function getParentNodeFromElement (arg0_element) {

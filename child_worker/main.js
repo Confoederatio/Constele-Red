@@ -1,17 +1,21 @@
+//Import libraries
+global.vm = require("vm");
+
 //Initialise IPC processes
 {
 	process.on("message", async ({ task_id, code, args }) => {
 		try {
-			var async_function = new Function("args", `
+			global.args = args;
+			
+			var result = await vm.runInThisContext("args", `
 				return (async () => {
 					${code}
 				})();
 			`);
-			var result = await async_function(args);
 			
 			process.send({ task_id, result });
 		} catch (e) {
-			process.send({ task_id, error: e.message });
+			process.send({ task_id, error: e.stack || e.message });
 		}
 	});
 }
