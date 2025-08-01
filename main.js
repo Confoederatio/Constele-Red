@@ -4,8 +4,12 @@ var { performance } = require("perf_hooks");
 
 var constele_version = "0.1b";
 var latest_fps = 0;
+var next_task_id = 0;
 var title_update_interval;
 var win;
+
+var child_main_path = "./child_worker/main.js";
+var child_workers = [];
 
 //Initialise functions
 {
@@ -86,6 +90,31 @@ var win;
       return result[0]; //Return the first selected path
     return undefined;
   }
+  
+  function initialiseChildWorkers () {
+    if (child_workers.length <= 0)
+      startChildWorker();
+  }
+  
+  function startChildWorker () {
+    //Declare local instance variables
+    var child_worker = child_process.fork(child_main_path);
+    var pending_tasks = new Map();
+    
+    child_worker.on("message", ({ task_id, result, error }) => {
+      var { resolve, reject } = pending_tasks.get(task_id) || {};
+      
+      if (resolve) {
+        (error) ? reject(error) : resolve(result);
+        pending_tasks.delete(task_id);
+      }
+    });
+    child_worker.on("exit", () => {
+      child_worker = null;
+    });
+    
+    child_workers.push({ worker: child_worker, pending_tasks: pending_tasks });
+  }
 }
 
 //App handling
@@ -113,4 +142,26 @@ var win;
 //Bindings handler
 {
   ipcMain.handle("dialog:openFolder", handleOpenFolder);
+  ipcMain.handle("run-task", async (arg0_event, arg1_code, arg2_args, arg3_options) => {
+    //Convert from parameters
+    var event = arg0_event;
+    var code = arg1_code;
+    var args = arg2_args;
+    var options = (arg3_options) ? arg3_options : {};
+    
+    //Initialise child workers just in case they haven't yet been called
+    initialiseChildWorkers();
+    
+    //Declare local instance variables
+    var target_child_worker = returnSafeNumber(options.child_worker_id);
+    var task_id = next_task_id++;
+    
+    var child_worker = child_workers[target_child_worker];
+    
+    //Run eval
+    return new Promise((resolve, reject) => {
+      child_worker.pending_tasks.set(task_id, { resolve, reject });
+      child_worker.worker.send({ task_id, code, args });
+    });
+  });
 }
