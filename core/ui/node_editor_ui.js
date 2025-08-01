@@ -24,6 +24,10 @@
 					<br>
 					<button id = "delete-file" class = "baklava-button">Delete File</button>
 					<button id = "rename-file" class = "baklava-button">Rename File</button>
+					<br>
+					<button id = "abort-task" class = "baklava-button">Abort Task</button>
+					<button id = "run-task" class = "baklava-button">Run Task</button>
+					<button id = "run-only-this-task" class = "baklava-button">Run Only This Task</button>
 				`, {
 					special_function: function (element) {
 						try {
