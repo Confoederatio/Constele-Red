@@ -1,4 +1,5 @@
 var { app, BrowserWindow, dialog, ipcMain, session } = require("electron");
+var child_process = require("child_process");
 var path = require("path");
 var { performance } = require("perf_hooks");
 
@@ -153,7 +154,7 @@ var child_workers = [];
     initialiseChildWorkers();
     
     //Declare local instance variables
-    var target_child_worker = returnSafeNumber(options.child_worker_id);
+    var target_child_worker = (options.child_worker_id) ? options.child_worker_id : 0;
     var task_id = next_task_id++;
     
     var child_worker = child_workers[target_child_worker];

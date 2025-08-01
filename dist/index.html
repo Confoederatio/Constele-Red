@@ -10,10 +10,21 @@
     <link rel = "shortcut icon" href = "public/favicon.png">
 
     <!-- UF, CSS Imports -->
-    <link rel="stylesheet" crossorigin href="/assets/index-CzF3itRG.css">
+
+    <!-- BaklavaJS; CodeMirror -->
+    <link rel = "stylesheet" href = "https://cdn.jsdelivr.net/npm/@baklavajs/themes@2.0.2-beta.3/dist/syrup-dark.css">
+    <script src = "https://cdn.jsdelivr.net/npm/baklavajs@2.7.0/dist/bundle.min.js "></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css" integrity="sha512-uf06llspW44/LZpHzHT6qBOIVODjWtv4MxCricRxkzvopAlSWnTf6hpZTFxuuZcuNE9CBQhqE0Seu1CoRk84nQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/nord.min.css" integrity="sha512-sPc4jmw78pt6HyMiyrEt3QgURcNRk091l3dZ9M309x4wM2QwnCI7bUtsLnnWXqwBMECE5YZTqV6qCDwmC2FMVA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js" integrity="sha512-8RnEqURPUc5aqFEN04aQEiPlSAdE0jlFS/9iGgUyNtwFnSKCXhmB6ZTNl7LnDtDWKabJIASzXrzD0K+LYexU9g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js" integrity="sha512-I6CdJdruzGtvDyvdO4YsiAq+pkWf2efgd1ZUSK2FnM/u2VuRASPC7GowWQrWyjxCZn6CT89s3ddGI+be0Ak9Fg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BcCr6hBU.css">
   </head>
   <body>
-    <div id = "app"></div>
+    <div id = "node-editor"></div>
+    <div id = "codemirror-overlay"></div>
 
     <!-- Import UF -->
     <script src = "./UF/js/vercengen/startup/vercengen_startup.js" type = "text/javascript"></script>
