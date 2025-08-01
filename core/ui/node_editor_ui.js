@@ -22,9 +22,9 @@
 					<button id = "load-file" class = "baklava-button">Load File</button>
 					<button id = "save-file" class = "baklava-button">Save File</button>
 					<br>
+					<button id = "change-file-path" class = "baklava-button">Change Filepath</button>
 					<button id = "delete-file" class = "baklava-button">Delete File</button>
-					<button id = "rename-file" class = "baklava-button">Rename File</button>
-					<br>
+					<br><br>
 					<button id = "abort-task" class = "baklava-button">Abort Task</button>
 					<button id = "run-task" class = "baklava-button">Run Task</button>
 					<button id = "run-only-this-task" class = "baklava-button">Run Only This Task</button>
@@ -82,7 +82,7 @@
 							})
 							
 							//Rename File
-							node_el.querySelector(`#rename-file`).addEventListener("click", (e) => {
+							node_el.querySelector(`#change-file-path`).addEventListener("click", (e) => {
 								try {
 									var file_name = node_el.querySelector(`.baklava-input[title="file_name"]`).value;
 									var selected_file_name = node_obj.inputs.select_file_tab._value;
