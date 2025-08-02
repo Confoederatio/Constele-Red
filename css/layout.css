@@ -1,7 +1,21 @@
 #scene {
     display: flex;
     flex: 1;
+    flex-direction: column;
     min-height: 0;
+
+    [tab="true"].visibility-hidden {
+        height: 0px !important;
+    }
+    #maptalks-editor-container {
+        height: 100%;
+        width: 100%;
+
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+    }
 
     #node-editor-container {
         height: 100%;

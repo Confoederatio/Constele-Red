@@ -51,6 +51,7 @@ global.path = require("path");
     special_function: function () {
       initialiseGlobal();
       initialiseBaklava();
+      initialiseMaptalks();
     }
   });
 
