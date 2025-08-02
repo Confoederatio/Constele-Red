@@ -114,6 +114,40 @@
 		
 		fs.mkdirSync(path.dirname(absolute_output_path), { recursive: true });
 		fs.renameSync(absolute_input_path, absolute_output_path);
+		
+		removeEmptyFolders(path.join(__dirname, "scripts"));
+	}
+	
+	function removeEmptyFolders (arg0_file_path) {
+		//Convert from parameters
+		var file_path = arg0_file_path;
+		
+		//Declare local instance variables
+		var files;
+			try {
+				files = fs.readdirSync(file_path);
+			} catch (e) { return false; } //Return statement
+		
+		//Process all subdirectories first
+		for (var local_file of files) {
+			var full_path = path.join(file_path, local_file);
+			var local_stat = fs.lstatSync(full_path);
+			
+			if (local_stat.isDirectory())
+				removeEmptyFolders(full_path);
+		}
+		
+		//Re-read directory after processing subfolders
+		var remaining_files = fs.readdirSync(file_path);
+		
+		//Remove directory if empty
+		if (remaining_files.length == 0) {
+			fs.rmdirSync(file_path);
+			
+			//Return statement
+			return true;
+		}
+		return false;
 	}
 	
 	function removeFileFromNode (arg0_baklava_node_el, arg1_file_name) {
@@ -152,7 +186,7 @@
 		}
 		if (selected_index != -1)
 			node_obj.inputs.select_file_tab.items.splice(selected_index, 1);
-		console.log(`Selected index:`, selected_index);
+		removeEmptyFolders(path.join(__dirname, "scripts"));
 	}
 	
 	function saveScriptFile (arg0_file_path, arg1_code) {
