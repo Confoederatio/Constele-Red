@@ -37,18 +37,18 @@
   </head>
   <body>
     <div id = "topbar" class = "topbar">
-      <div class = "tab" id = "node-editor-topbar">
-        <span class = "title">Node Editor</span>
+      <div class = "tab active" id = "map-viewer-topbar">
+        <span class = "title">Map Viewer</span>
       </div>
-      <div class = "tab active" id = "map-editor-topbar">
-        <span class = "title">Map Editor</span>
+      <div class = "tab" id = "processing-topbar">
+        <span class = "title">Processing</span>
       </div>
       <div class = "tab" id = "view-topbar">
         <span class = "title"><u>V</u>iew</span>
         <div class = "dropdown-menu">
           <div class = "dropdown-item" id = "change-base-layer" onclick = "printChangeBaseLayer();">Change Base Layer</div>
           <hr>
-          <div class = "dropdown-item" id = "toggle-code-editor">Toggle Code Editor</div>
+          <div class = "dropdown-item" id = "toggle-code-editor" onclick = "toggleMapRightSidebar();">Toggle Code Editor</div>
           <div class = "dropdown-item" id = "toggle-time-display">Toggle Time Display</div>
           <div class = "dropdown-item" id = "view-statvis">View Statvis</div>
         </div>
@@ -65,7 +65,22 @@
           <div id = "time-controls"></div>
         </div>
         <div id = "right-sidebar">
-          <div id = "codemirror-editor"></div>
+          <div id = "right-sidebar-form">
+            <button id = "add-mapmode">Add Mapmode</button>
+            <button id = "remove-mapmode">Remove Mapmode</button><br>
+            Mapmode Name: <input id = "mapmode-name" type = "text" value = "default.js">
+            <br><br>
+            Select Mapmode: <select id = "select-mapmode">
+              <option id = "test">Test</option>
+            </select>
+          </div>
+          <div id = "right-sidebar-hint">
+            <br>
+            <b>Hint:</b>
+            <br>
+            <br>
+          </div>
+          <textarea id = "codemirror-editor"></textarea>
         </div>
       </div>
     </div>

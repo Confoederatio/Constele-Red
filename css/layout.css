@@ -4,6 +4,34 @@
     flex-direction: column;
     min-height: 0;
 
+    color: white;
+    font-family: "Karla";
+    font-weight: 300;
+
+    #maptalks-editor-container {
+        display: flex;
+        flex-direction: row; /* sidebar on the right */
+        height: 100%;
+        width: 100%;
+
+        #right-sidebar {
+            background-color: rgb(35, 35, 35);
+            display: flex;
+            flex-direction: column;
+            right: 0px;
+
+            height: 100%;
+            max-width: calc(30% - 1rem);
+            min-width: calc(30rem - 1rem);
+            padding-left: 1rem;
+            z-index: 1;
+
+            .CodeMirror {
+                padding-top: 0.5rem;
+            }
+        }
+    }
+
     [tab="true"].visibility-hidden {
         height: 0px !important;
     }

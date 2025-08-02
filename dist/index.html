@@ -8,6 +8,7 @@
 
     <!-- UF, CSS Imports -->
     <link rel = "shortcut icon" href = "public/favicon.png">
+
 
     <!-- UF, CSS Imports -->
 
@@ -24,15 +25,25 @@
     <!-- Maptalks -->
     <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
     <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.min.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-Cci024q0.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-D5eZSLm8.css">
   </head>
   <body>
     <div id = "topbar" class = "topbar">
-      <div class = "tab" id = "node-editor-topbar">
-        <span class = "title">Node Editor</span>
+      <div class = "tab active" id = "map-viewer-topbar">
+        <span class = "title">Map Viewer</span>
       </div>
-      <div class = "tab active" id = "map-editor-topbar">
-        <span class = "title">Map Editor</span>
+      <div class = "tab" id = "processing-topbar">
+        <span class = "title">Processing</span>
+      </div>
+      <div class = "tab" id = "view-topbar">
+        <span class = "title"><u>V</u>iew</span>
+        <div class = "dropdown-menu">
+          <div class = "dropdown-item" id = "change-base-layer" onclick = "printChangeBaseLayer();">Change Base Layer</div>
+          <hr>
+          <div class = "dropdown-item" id = "toggle-code-editor">Toggle Code Editor</div>
+          <div class = "dropdown-item" id = "toggle-time-display">Toggle Time Display</div>
+          <div class = "dropdown-item" id = "view-statvis">View Statvis</div>
+        </div>
       </div>
     </div>
     <div id = "scene">
@@ -42,8 +53,17 @@
       </div>
       <div id = "maptalks-editor-container" class = "active" tab = "true">
         <div id = "map"></div>
+        <div id = "bottombar">
+          <div id = "time-controls"></div>
+        </div>
         <div id = "right-sidebar">
-          <div id = "codemirror-editor"></div>
+          <div id = "right-sidebar-form">
+          
+          </div>
+          <div id = "right-sidebar-hint">
+            Variables:
+          </div>
+          <textarea id = "codemirror-editor"></textarea>
         </div>
       </div>
     </div>

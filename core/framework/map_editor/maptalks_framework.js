@@ -21,5 +21,8 @@
 		map.setSpatialReference({
 			projection: "EPSG:4326"
 		});
+		
+		//Initialise UIs
+		printMapmodeCodeEditor();
 	}
 }

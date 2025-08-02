@@ -46,8 +46,8 @@
 		
 		//Populate tab states
 		setTimeout(function(){
-			var map_editor_button_el = document.getElementById("map-editor-topbar");
-			var node_editor_button_el = document.getElementById("node-editor-topbar");
+			var map_editor_button_el = document.getElementById("map-viewer-topbar");
+			var node_editor_button_el = document.getElementById("processing-topbar");
 			
 			//Toggle tab displays
 			map_editor_button_el.addEventListener("click", function (e) {
