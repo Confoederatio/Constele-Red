@@ -1,6 +1,15 @@
 //Initialise functions
 {
-	function closeAllToolbarTabs () {
+	function closeAllTabs () {
+		//Declare local instance variables
+		var all_tab_container_els = document.querySelectorAll(`#scene > div[tab="true"]`);
+		
+		//Iterate over all_tab_container_els and set them to visibility-hidden
+		for (let i = 0; i < all_tab_container_els.length; i++)
+			all_tab_container_els[i].setAttribute("class", "visibility-hidden");
+	}
+	
+	function closeAllTopbarTabs () {
 		//Declare local instance variables
 		var all_tab_els = document.querySelectorAll(`#topbar .tab`);
 		
@@ -9,7 +18,7 @@
 			all_tab_els[i].classList.remove(`active`);
 	}
 	
-	function initialiseToolbar () {
+	function initialiseTopbar () {
 		//Declare local instance variables
 		var all_tab_els = document.querySelectorAll(`#topbar .tab`);
 		
@@ -27,7 +36,7 @@
 				
 				if (!is_dropdown_item) {
 					e.stopPropagation();
-					closeAllToolbarTabs();
+					closeAllTopbarTabs();
 					
 					if (!was_active)
 						all_tab_els[i].classList.add("active");
@@ -37,15 +46,19 @@
 		
 		//Populate tab states
 		setTimeout(function(){
-			/*
-			var split_screen_button_el = document.getElementById("split-screen-button");
-			if (editor.isSplitScreen())
-				split_screen_button_el.classList.add("active");
-			split_screen_button_el.onclick = function (e) {
-				closeAllToolbarTabs();
-				toggleSplitScreen();
-			};
-			 */
+			var map_editor_button_el = document.getElementById("map-editor-topbar");
+			var node_editor_button_el = document.getElementById("node-editor-topbar");
+			
+			//Toggle tab displays
+			map_editor_button_el.addEventListener("click", function (e) {
+				closeAllTabs();
+				document.querySelector(`#maptalks-editor-container`).setAttribute("class", "active");
+			});
+			
+			node_editor_button_el.addEventListener("click", function (e) {
+				closeAllTabs();
+				document.querySelector(`#node-editor-container`).setAttribute("class", "active")
+			});
 		}, 100);
 	}
 	
@@ -61,7 +74,7 @@
 		document.addEventListener("keydown", (e) => {
 			//Handle Escape key to close any open menu
 			if (e.key == "Escape") {
-				closeAllToolbarTabs();
+				closeAllTopbarTabs();
 				return;
 			}
 			
@@ -74,7 +87,7 @@
 				if (target_tab_el) {
 					var was_active = target_tab_el.classList.contains("active");
 					
-					closeAllToolbarTabs();
+					closeAllTopbarTabs();
 					if (!was_active)
 						target_tab_el.classList.add("active");
 				}

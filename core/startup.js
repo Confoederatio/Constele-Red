@@ -58,7 +58,7 @@ global.path = require("path");
   
   window.initialise_toolbar_loop = setInterval(function(){
     try {
-      initialiseToolbar();
+      initialiseTopbar();
       clearInterval(window.initialise_toolbar_loop);
     } catch (e) {}
   });
