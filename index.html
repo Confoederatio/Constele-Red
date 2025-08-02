@@ -12,6 +12,8 @@
     <link rel = "stylesheet" href = "./css/topbar/topbar.css">
     <link rel = "shortcut icon" href = "public/favicon.png">
 
+    <link rel = "stylesheet" href = "./css/map_editor/map.css">
+
     <!-- UF, CSS Imports -->
     <link rel = "stylesheet" href = "./UF/css/vercengen/ve_dark.css">
     <link rel = "stylesheet" href = "./UF/css/vercengen/ve_layout.css">
@@ -41,6 +43,16 @@
       <div class = "tab active" id = "map-editor-topbar">
         <span class = "title">Map Editor</span>
       </div>
+      <div class = "tab" id = "view-topbar">
+        <span class = "title"><u>V</u>iew</span>
+        <div class = "dropdown-menu">
+          <div class = "dropdown-item" id = "change-base-layer" onclick = "printChangeBaseLayer();">Change Base Layer</div>
+          <hr>
+          <div class = "dropdown-item" id = "toggle-code-editor">Toggle Code Editor</div>
+          <div class = "dropdown-item" id = "toggle-time-display">Toggle Time Display</div>
+          <div class = "dropdown-item" id = "view-statvis">View Statvis</div>
+        </div>
+      </div>
     </div>
     <div id = "scene">
       <div id = "node-editor-container" class = "visibility-hidden" tab = "true">
@@ -49,6 +61,9 @@
       </div>
       <div id = "maptalks-editor-container" class = "active" tab = "true">
         <div id = "map"></div>
+        <div id = "bottombar">
+          <div id = "time-controls"></div>
+        </div>
         <div id = "right-sidebar">
           <div id = "codemirror-editor"></div>
         </div>

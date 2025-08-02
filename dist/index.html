@@ -6,7 +6,7 @@
 
     <script src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
-    <!-- UF, CSS Imports -->
+    <!-- UF, CSS Imports -->
     <link rel = "shortcut icon" href = "public/favicon.png">
 
     <!-- UF, CSS Imports -->
@@ -20,11 +20,33 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js" integrity="sha512-8RnEqURPUc5aqFEN04aQEiPlSAdE0jlFS/9iGgUyNtwFnSKCXhmB6ZTNl7LnDtDWKabJIASzXrzD0K+LYexU9g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js" integrity="sha512-I6CdJdruzGtvDyvdO4YsiAq+pkWf2efgd1ZUSK2FnM/u2VuRASPC7GowWQrWyjxCZn6CT89s3ddGI+be0Ak9Fg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-BcCr6hBU.css">
+    
+    <!-- Maptalks -->
+    <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+    <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.min.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-Cci024q0.css">
   </head>
   <body>
-    <div id = "node-editor"></div>
-    <div id = "codemirror-overlay"></div>
+    <div id = "topbar" class = "topbar">
+      <div class = "tab" id = "node-editor-topbar">
+        <span class = "title">Node Editor</span>
+      </div>
+      <div class = "tab active" id = "map-editor-topbar">
+        <span class = "title">Map Editor</span>
+      </div>
+    </div>
+    <div id = "scene">
+      <div id = "node-editor-container" class = "visibility-hidden" tab = "true">
+        <div id = "node-editor"></div>
+        <div id = "codemirror-overlay"></div>
+      </div>
+      <div id = "maptalks-editor-container" class = "active" tab = "true">
+        <div id = "map"></div>
+        <div id = "right-sidebar">
+          <div id = "codemirror-editor"></div>
+        </div>
+      </div>
+    </div>
 
     <!-- Import UF -->
     <script src = "./UF/js/vercengen/startup/vercengen_startup.js" type = "text/javascript"></script>
