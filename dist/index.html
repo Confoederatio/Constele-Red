@@ -21,11 +21,29 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js" integrity="sha512-8RnEqURPUc5aqFEN04aQEiPlSAdE0jlFS/9iGgUyNtwFnSKCXhmB6ZTNl7LnDtDWKabJIASzXrzD0K+LYexU9g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js" integrity="sha512-I6CdJdruzGtvDyvdO4YsiAq+pkWf2efgd1ZUSK2FnM/u2VuRASPC7GowWQrWyjxCZn6CT89s3ddGI+be0Ak9Fg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
-    <!-- Maptalks -->
-    <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
-    <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.min.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DU7MzKJB.css">
+
+    <!-- HTML2Canvas, Leaflet.js, Leaflet Geodesy, Maptalks/GL, Sortable, Three.js, Tippy.js, Turf.js -->
+    <script type = "text/javascript" src = "./libraries/maptalks.min.js"></script>
+    <script type="text/javascript" src = "./libraries/dat.gui.min.js"></script>
+    <script type="text/javascript" src="./libraries/maptalksgl.js"></script>
+    <script type="text/javascript" src="./libraries/three.min.js"></script>
+    <script type="text/javascript" src="./libraries/GLTFLoader.js"></script>
+    <script type="text/javascript" src="./libraries/maptalks.three.js"></script>
+    <script type="text/javascript" src="./libraries/stats.min.js"></script>
+    <script type = "text/javascript" src = "./libraries/leaflet.min.js"></script>
+    <script type = "text/javascript" src = "./libraries/vector_grid/Leaflet.VectorGrid.bundled.min.js"></script>
+
+    <script src = "./libraries/html2canvas.min.js"></script>
+    <script src = './libraries/leaflet-geodesy.js'></script>
+    <script src = "./libraries/Sortable.min.js"></script>
+    <script src = "./libraries/popper.min.js"></script>
+    <script src = "./libraries/tippy-bundle.umd.min.js"></script>
+    <script src = "./libraries/turf.min.js"></script>
+
+    <!-- Colorpicker, LeaderLine, Leaflet, Sortable, Tippy, Turf CSS -->
+    <script src = "./libraries/colorpicker.iife.js"></script>
+    <script src = "./libraries/leader-line.min.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-C_yR5zsU.css">
   </head>
   <body>
     <div id = "topbar" class = "topbar">
@@ -57,17 +75,8 @@
           <div id = "time-controls"></div>
         </div>
         <div id = "right-sidebar">
-          <div id = "right-sidebar-form">
-            <!--<button id = "add-mapmode">Add Mapmode</button>
-            <button id = "remove-mapmode">Remove Mapmode</button><br>
-            Mapmode Name: <input id = "mapmode-name" type = "text" value = "default.js">
-            <br><br>
-            Select Mapmode: <select id = "select-mapmode">
-              <option id = "test">Test</option>
-            </select>-->
-          </div>
+          <div id = "right-sidebar-form"></div>
           <div id = "right-sidebar-hint">
-            <br>
             <b>Hint:</b>
             <br>
             <br>

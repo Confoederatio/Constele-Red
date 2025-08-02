@@ -75,7 +75,7 @@ ve.Interface = class {
 			if (options.class.includes("unique"))
 				can_close = true;
 		
-		if (!can_close) {
+		if (can_close) {
 			var close_button_el = document.createElement("img");
 			
 			close_button_el.id = "close-button";
