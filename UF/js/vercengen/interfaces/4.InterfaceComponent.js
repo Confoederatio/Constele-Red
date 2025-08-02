@@ -70,9 +70,7 @@ ve.Component = class {
 				var return_value = options.onload(this.component.element);
 				
 				if (typeof return_value == "object")
-					this.component.element.innerHTML = ve.Component.createInput(
-						dumbMergeObjects(this.element, return_value)
-					);
+					component_obj = ve.Component.createInput(return_value);
 			}
 		}
 		

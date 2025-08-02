@@ -25,7 +25,7 @@
     <!-- Maptalks -->
     <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
     <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.min.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-D5eZSLm8.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-DU7MzKJB.css">
   </head>
   <body>
     <div id = "topbar" class = "topbar">
@@ -40,7 +40,7 @@
         <div class = "dropdown-menu">
           <div class = "dropdown-item" id = "change-base-layer" onclick = "printChangeBaseLayer();">Change Base Layer</div>
           <hr>
-          <div class = "dropdown-item" id = "toggle-code-editor">Toggle Code Editor</div>
+          <div class = "dropdown-item" id = "toggle-code-editor" onclick = "toggleMapRightSidebar();">Toggle Code Editor</div>
           <div class = "dropdown-item" id = "toggle-time-display">Toggle Time Display</div>
           <div class = "dropdown-item" id = "view-statvis">View Statvis</div>
         </div>
@@ -58,10 +58,19 @@
         </div>
         <div id = "right-sidebar">
           <div id = "right-sidebar-form">
-          
+            <!--<button id = "add-mapmode">Add Mapmode</button>
+            <button id = "remove-mapmode">Remove Mapmode</button><br>
+            Mapmode Name: <input id = "mapmode-name" type = "text" value = "default.js">
+            <br><br>
+            Select Mapmode: <select id = "select-mapmode">
+              <option id = "test">Test</option>
+            </select>-->
           </div>
           <div id = "right-sidebar-hint">
-            Variables:
+            <br>
+            <b>Hint:</b>
+            <br>
+            <br>
           </div>
           <textarea id = "codemirror-editor"></textarea>
         </div>
