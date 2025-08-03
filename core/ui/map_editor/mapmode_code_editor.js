@@ -31,7 +31,7 @@
 				y: 0,
 				
 				onclick: (e) => {
-					console.log(e.interface, e.state);
+					console.log(e.component, e.element, e.interface, e.state, e.value);
 					//If it doesn't already exist, create a new file
 					var mapmode_name =  e.state.mapmode_name;
 					
