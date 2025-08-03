@@ -69,10 +69,10 @@ ve.Component = class {
 				var return_value = options.onload(component_obj.element);
 				
 				if (typeof return_value == "object") {
-					console.log(`Return value:`, {...options, ...return_value });
+					//console.log(`Return value:`, {...options, ...return_value });
 					//component_obj = ve.Component.createInput(return_value);
 					component_obj = ve.Component.createInput({ ...options, ...return_value });
-					console.log(component_obj)
+					//console.log(component_obj)
 				}
 			}
 			
