@@ -41,7 +41,7 @@
 		//Declare local instance variables
 		var html_string = [];
 		var mapmode_dictionary = getMapmodeFilesDictionary();
-		var select_el = window.mapmode_ui.querySelector(`#select_mapmode select`);
+		var select_el = window.mapmode_ui.element.querySelector(`#select_mapmode select`);
 		
 		//Iterate over all_mapmodes
 		var all_mapmodes = Object.keys(mapmode_dictionary);
@@ -58,7 +58,7 @@
 		for (let local_option of select_el.options)
 			if (local_option.text == main.map_codemirror_obj.file) {
 				select_el.value = local_option.value;
-				window.mapmode_ui.querySelector(`#mapmode_name input[type="text"]`).value = main.map_codemirror_obj.file;
+				window.mapmode_ui.element.querySelector(`#mapmode_name input[type="text"]`).value = main.map_codemirror_obj.file;
 				
 				break;
 			}

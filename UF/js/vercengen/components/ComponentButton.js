@@ -39,6 +39,8 @@ ve.ComponentButton = class {
 	/**
 	 * Extends {@link HTMLElement.prototype.onclick}
 	 * - `.component`: this:{@link ve.ComponentButton}
+	 * - `.interface`: {@link ve.Interface}
+	 * - `.state`: {@link ve.Interface.getState}
 	 *
 	 * @typedef ve.ComponentButtonOnclickEvent
 	 */
@@ -53,6 +55,8 @@ ve.ComponentButton = class {
 			} else {
 				this.element.onclick = (e) => {
 					e.component = this;
+					e.interface = this.options.parent;
+					e.state = this.options.parent.getState();
 					
 					this.options.onclick(e);
 				};

@@ -22,6 +22,7 @@
 			anchor: "#right-sidebar-form",
 			can_close: false,
 			class: "ve-transparent",
+			id: "mapmode_ui",
 			
 			add_mapmode: {
 				name: "Add Mapmode",
@@ -30,13 +31,15 @@
 				y: 0,
 				
 				onclick: (e) => {
+					console.log(e.interface, e.state);
 					//If it doesn't already exist, create a new file
-					var mapmode_name =  window.mapmode_ui.querySelector(`#mapmode_name input[type='text']`).value;
+					var mapmode_name =  e.state.mapmode_name;
 					
+					console.log(e.interface);
 					var absolute_file_path = path.join(__dirname, "mapmodes", mapmode_name);
 						absolute_file_path = `${absolute_file_path.replace(/\\/gm, "/")}.js`;
 					var code = readMapmodeFile(absolute_file_path); //Dummy function to create file
-					var select_mapmode_el = window.mapmode_ui.querySelector(`#select_mapmode select`);
+					var select_mapmode_el = e.interface.components.select_mapmode.element;
 						select_mapmode_el.value = codemirror_obj.file;
 						
 					//Update CodeMirror
@@ -56,7 +59,7 @@
 				
 				onclick: (e) => {
 					//Confirmation prompt
-					var absolute_file_path = window.mapmode_ui.querySelector(`#select_mapmode select`).value;
+					var absolute_file_path = window.mapmode_ui.element.querySelector(`#select_mapmode select`).value;
 					
 					if (fs.existsSync(absolute_file_path))
 						if (window.confirm(`Are you sure you want to delete ${absolute_file_path}?`)) {

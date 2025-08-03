@@ -13,6 +13,7 @@ if (!global.ve) global.ve = {};
  * <br>
  * - `.element`: {@link HTMLElement}
  * - `.id="generic-component"`: {@link string}
+ * - `.parent`: {@link ve.Interface}
  * - `.type`: <span color = "white">{@link ve.component_dictionary}</span>
  * <br>
  * - `.attributes`: {@link Object}
@@ -26,6 +27,7 @@ if (!global.ve) global.ve = {};
 ve.Component = class {
 	/**
 	 * - `.id`: {@link string}
+	 * - `.parent`: {@link ve.Interface}
 	 * - `.placeholder`: {@link any}
 	 * - `.type`: <span color = "white">{@link ve.component_dictionary}</span>
 	 * <br>
@@ -63,7 +65,8 @@ ve.Component = class {
 			var component_obj = ve.Component.createInput(options);
 			if (!component_obj) console.error(`Invalid component type:`, options.type);
 			
-			this.component = component_obj;
+			this.component = component_obj; //Set this.component alias for internal referencing; same as this.element
+			this.element = component_obj;
 			
 			//Onload handler
 			if (options.onload) {
