@@ -14,9 +14,10 @@
 
 ## Abstract.
 
-**Constele Red** is a stopgap grid-based mapping suite built for historical statistics and heavy duty data processing/cleaning. It works by hooking into an existing CLI/Node.js application and specifying tasks/function calls in a directed acyclic graph (DAG), which is mounted on separate child processes. This allows the render thread to command tasks to workers as well as to render any custom end visualisations from the geoprocessing chain. It will then sequentially execute dependencies, updating them in real-time.
+> [!NOTE]
+> Tilemap APIs may occasionally be overloaded. When this occurs, consider providing your own API keys, or switching to a more reliable provider from the **Base Map Layer** menu, such as <ins>Carto</ins> or <ins>OSM</ins>.
 
-This application is mainly split into a node-based dataflow editor and a map visualiser, where multiple mapmodes may be saved and switched between. Mapmodes are scriptable, as are individual function/command calls from within nodes. **Constele Red** is built as a supplement to [Naissance GIS](https://github.com/Confoederatio/Naissance), a 3D HGIS used by <ins>Confoederatio</ins>. Statistical integration and data visualisation suites have also been added on via D3.js compatibility.
+**Constele Red** is a stopgap grid-based mapping suite built for historical statistics and heavy duty data processing/cleaning. It works by hooking into an existing CLI/Node.js application and specifying tasks/function calls in a directed acyclic graph (DAG), which is mounted on separate child processes. This allows the render thread to command tasks to workers as well as to render any custom end visualisations from the geoprocessing chain. It will then sequentially execute dependencies, updating them in real-time.
 
 <br>
 <table>
@@ -31,8 +32,9 @@ This application is mainly split into a node-based dataflow editor and a map vis
     </td>
   </tr>
 </table>
+<br>
 
-**Note.** Tilemap APIs may occasionally be overloaded. When this occurs, consider providing your own API keys, or switching to a more reliable provider from the **Base Map Layer** menu, such as <ins>Carto</ins> or <ins>OSM</ins>.
+This application is mainly split into a node-based dataflow editor and a map visualiser, where multiple mapmodes may be saved and switched between. Mapmodes are scriptable, as are individual function/command calls from within nodes. **Constele Red** is built as a supplement to [Naissance GIS](https://github.com/Confoederatio/Naissance), a 3D HGIS used by <ins>Confoederatio</ins>. Statistical integration and data visualisation suites have also been added on via D3.js compatibility.
 
 ## Dependencies.
 - BaklavaJS (Browser-build, no Vue)
