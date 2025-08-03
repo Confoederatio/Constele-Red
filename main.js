@@ -3,7 +3,7 @@ var child_process = require("child_process");
 var path = require("path");
 var { performance } = require("perf_hooks");
 
-var constele_version = "0.1b";
+var constele_version = "0.2b";
 var latest_fps = 0;
 var next_task_id = 0;
 var title_update_interval;
