@@ -77,7 +77,9 @@
 							var state_obj = window.change_base_layer_window_state;
 							
 							if (state_obj && state_obj.change_theme != undefined)
-								e.querySelector(`select`).value = state_obj.change_theme;
+								return {
+									placeholder: state_obj.change_theme
+								}
 						}
 					},
 					opacity: {
