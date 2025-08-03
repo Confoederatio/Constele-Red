@@ -57,10 +57,10 @@ global.path = require("path");
 
   trackPerformance();
   
-  window.initialise_toolbar_loop = setInterval(function(){
+  window.initialise_topbar_loop = setInterval(function(){
     try {
       initialiseTopbar();
-      clearInterval(window.initialise_toolbar_loop);
+      clearInterval(window.initialise_topbar_loop);
     } catch (e) {}
   });
 }

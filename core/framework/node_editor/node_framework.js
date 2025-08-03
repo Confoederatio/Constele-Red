@@ -333,8 +333,10 @@
 			
 			function syncOverlay () {
 				if (!codemirror_map_obj[codemirror_id]) return;
-				if (!options.element.isConnected)
+				if (!options.element.isConnected) {
 					close();
+					return;
+				}
 				
 				var rect = options.element.getBoundingClientRect();
 				var scale = getBaklavaScale();
