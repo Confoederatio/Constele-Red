@@ -1,5 +1,14 @@
 //Initialise functions
 {
+	function clearMap () {
+		//Declare local instance variables
+		var all_layers = map.getLayers();
+		
+		//Iterate over all_layers and remove them
+		for (let i = 0; i < all_layers.length; i++)
+			all_layers[i].remove();
+	}
+	
 	function initialiseMaptalks () {
 		//Declare local instance variables
 		global.maptiler_key = "xWbyIIrJg1lF1fmQFByp";

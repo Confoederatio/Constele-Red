@@ -1,5 +1,5 @@
 map.remove();
-var map = new maptalks.Map("map", {
+global.map = new maptalks.Map("map", {
   center: [19.06325670775459, 42.16842479475318],
   zoom: 9,
   pitch: 60,
@@ -62,7 +62,7 @@ function addGltf() {
   stats = new Stats();
   map.getContainer().appendChild(stats.dom);
   var loader = new THREE.GLTFLoader();
-  loader.load('./tests/RobotExpressive.glb', function(gltf) {
+  loader.load('./mapmodes/tests/RobotExpressive.glb', function(gltf) {
 
       model = gltf.scene;
       model.rotation.x = Math.PI / 2;

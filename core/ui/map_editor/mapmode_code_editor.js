@@ -62,6 +62,7 @@
 						if (window.confirm(`Are you sure you want to delete ${absolute_file_path}?`)) {
 							fs.unlinkSync(absolute_file_path);
 							refreshSelectMapmode();
+							clearMap();
 						}
 				}
 			},
@@ -82,6 +83,8 @@
 					refreshSelectMapmode();
 					try {
 						codemirror_obj.editor.setValue(readMapmodeFile(e.target.value));
+						clearMap();
+						eval(main.map_codemirror_obj.editor.getValue());
 					} catch (e) { console.error(e); }
 				},
 				onload: (e) => {
@@ -92,8 +95,9 @@
 							//Check code
 							var code = readMapmodeFile(e.querySelector("select").value);
 							
-							if (code.length > 0)
+							if (code.length > 0) {
 								main.map_codemirror_obj.editor.setValue(code);
+							}
 						} catch (e) { console.error(e); }
 					});
 				}
@@ -106,6 +110,7 @@
 				
 				onclick: (e) => {
 					try {
+						clearMap();
 						eval(main.map_codemirror_obj.editor.getValue());
 					} catch (e) {
 						console.error(e);
