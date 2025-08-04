@@ -67,5 +67,32 @@
             }
         }
     }
+
+    #time-controls {
+        position: fixed;
+
+        bottom: 1rem;
+        left: 0px;
+        width: 100vw;
+        z-index: 2;
+
+        #mapmode-preview-name-input {
+            font-family: "Karla";
+            font-size: 1.25rem;
+            width: 25vw;
+        }
+        #year-input {
+            background: none;
+            border: none;
+            color: white;
+            font-family: "Karla";
+            font-size: 2rem;
+            text-align: center;
+        }
+        #year-input:focus {
+            border: none;
+            outline: none;
+        }
+    }
 }
 

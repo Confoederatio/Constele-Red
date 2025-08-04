@@ -32,6 +32,7 @@
 		});
 		
 		//Initialise UIs
+		initialiseMapTimeControls();
 		printMapmodeCodeEditor();
 	}
 }

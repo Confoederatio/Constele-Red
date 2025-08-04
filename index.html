@@ -31,7 +31,8 @@
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js" integrity="sha512-I6CdJdruzGtvDyvdO4YsiAq+pkWf2efgd1ZUSK2FnM/u2VuRASPC7GowWQrWyjxCZn6CT89s3ddGI+be0Ak9Fg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <!-- HTML2Canvas, Leaflet.js, Leaflet Geodesy, Maptalks/GL, Sortable, Three.js, Tippy.js, Turf.js -->
+    <!-- D3, HTML2Canvas, Leaflet.js, Leaflet Geodesy, Maptalks/GL, Sortable, Three.js, Tippy.js, Turf.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js" integrity="sha512-vc58qvvBdrDR4etbxMdlTt4GBQk1qjvyORR2nrsPsFPyrs+/u5c3+1Ct6upOgdZoIl7eq6k3a1UPDSNAQi/32A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel = "stylesheet" href = "./libraries/maptalks.css">
     <script type = "text/javascript" src = "./libraries/maptalks.min.js"></script>
     <script type="text/javascript" src = "./libraries/dat.gui.min.js"></script>
@@ -85,7 +86,12 @@
       <div id = "maptalks-editor-container" class = "active" tab = "true">
         <div id = "map"></div>
         <div id = "bottombar">
-          <div id = "time-controls"></div>
+          <div id = "time-controls">
+            <center>
+              <div id = "mapmode-preview-name-input" type = "text" contenteditable>(Mapmode Name)</div>
+              <input id = "year-input" type = "number" value = "2020">
+            </center>
+          </div>
         </div>
         <div id = "right-sidebar">
           <div id = "right-sidebar-hint">

@@ -25,6 +25,12 @@ body {
   top: 0px;
 }
 
+/* -- Input styling -- */
+input[type="number"]:not(:focus)::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 /* -- Scrollbar styling -- */
 ::-webkit-scrollbar {
   width: 0.25rem;

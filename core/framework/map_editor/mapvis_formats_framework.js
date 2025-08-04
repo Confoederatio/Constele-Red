@@ -94,15 +94,25 @@ class GeoPNG {
 		return img;
 	}
 	
-	getRGBData (image, width = this.tile_size, height = this.tile_size) {
+	getRGBData (arg0_image, arg1_width, arg2_height) {
+		//Convert from parameters
+		var image = arg0_image;
+		var width = returnSafeNumber(arg1_width, this.tile_size);
+		var height = returnSafeNumber(arg2_height, this.tile_size);
+		
+		//Declare local instance variables
 		this.canvas.width = width;
 		this.canvas.height = height;
-		const ctx = this.canvas.getContext("2d");
-		ctx.drawImage(image, 0, 0, width, height);
+		
+		var ctx = this.canvas.getContext("2d");
+			ctx.drawImage(image, 0, 0, width, height);
+		
+		//Return statement
 		return ctx.getImageData(0, 0, width, height).data;
 	}
 }
 
+//Quarantined primitive class
 class GeoPNG_Primitive extends maptalks.BaseObject {
 	constructor(extent, options, material, layer) {
 		options = maptalks.Util.extend({}, {
@@ -147,34 +157,93 @@ class GeoPNG_Primitive extends maptalks.BaseObject {
 		this.getObject3d().position.copy(v);
 		material.transparent = true;
 		
+		
 		if (rgbImg && typeof getRGBData === "function") {
 			material.opacity = 0;
 			rgbImg.onload = () => {
 				const width = imageWidth, height = imageHeight;
 				const imgdata = getRGBData(rgbImg, width, height);
-				let idx = 0;
+				
+				// 1. Decode heights and compute log-heights for positive values
+				const heights = [];
+				const logHeights = [];
+				let minLog = Infinity, maxLog = -Infinity;
 				for (let i = 0, len = imgdata.length; i < len; i += 4) {
 					const R = imgdata[i], G = imgdata[i + 1], B = imgdata[i + 2], A = imgdata[i + 3];
-					const height = decodeRGBAAsNumber([R, G, B, A]);
-					const z = height;
-					geometry.attributes.position.array[idx * 3 + 2] = z;
+					const h = decodeRGBAAsNumber([R, G, B, A]);
+					heights.push(h);
+					if (h > 0) {
+						const logh = Math.log10(h); // or Math.log(h) for natural log
+						logHeights.push(logh);
+						if (logh < minLog) minLog = logh;
+						if (logh > maxLog) maxLog = logh;
+					} else {
+						logHeights.push(null);
+					}
+				}
+
+// 2. Assign Z, color, and alpha using log-normalized value
+				let idx = 0;
+				const colorArray = new Float32Array((imgdata.length / 4) * 4); // RGBA
+				for (let i = 0, len = imgdata.length; i < len; i += 4) {
+					const h = heights[idx];
+					let t = 0;
+					if (h > 0) {
+						const logh = logHeights[idx];
+						t = (logh - minLog) / (maxLog - minLog || 1);
+					}
+					// Get Viridis color as RGB
+					const color = d3.interpolateViridis(t);
+					const rgb = d3.color(color);
+					
+					colorArray[idx * 4 + 0] = rgb.r / 255;
+					colorArray[idx * 4 + 1] = rgb.g / 255;
+					colorArray[idx * 4 + 2] = rgb.b / 255;
+					colorArray[idx * 4 + 3] = h > 0 ? 1.0 : 0.0; // Alpha: 0 if h <= 0
+					
+					// Set Z as before
+					geometry.attributes.position.array[idx * 3 + 2] = h;
 					idx++;
 				}
+				
+				geometry.setAttribute(
+					'color',
+					new THREE.BufferAttribute(colorArray, 4)
+				);
 				geometry.attributes.position.needsUpdate = true;
-				if (rgbImg) {
-					const textureLoader = new THREE.TextureLoader();
-					textureLoader.load(rgbImg.src, (texture) => {
-						material.map = texture;
-						material.opacity = 1;
-						material.needsUpdate = true;
-					});
-				} else {
-					material.opacity = 1;
-				}
+				geometry.attributes.color.needsUpdate = true;
+				
+				const shaderMaterial = new THREE.ShaderMaterial({
+					uniforms: {
+						globalOpacity: { value: 0.5 } // default to 50% opacity
+					},
+					vertexColors: true,
+					transparent: true,
+					vertexShader: `
+                        varying vec4 vColor;
+                        void main() {
+                            vColor = color;
+                            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                        }
+                    `,
+					fragmentShader: `
+                        uniform float globalOpacity;
+                        varying vec4 vColor;
+                        void main() {
+                            float alpha = vColor.a * globalOpacity;
+                            if (alpha < 0.01) discard;
+                            gl_FragColor = vec4(vColor.rgb, alpha);
+                        }
+                    `
+				});
+				
+				// Replace the mesh's material
+				this.getObject3d().material = shaderMaterial;
 			};
 			rgbImg.onerror = function () {
 				console.error(`not load ${rgbImg.src}`);
 			};
 		}
+		// --- END OF BLOCK ---
 	}
 }

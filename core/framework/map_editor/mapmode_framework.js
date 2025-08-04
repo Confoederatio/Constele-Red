@@ -64,8 +64,12 @@
 			}
 	}
 	
-	function saveCurrentMapmode () {
-		//Declare local instance variables
+	function runCurrentMapmode () {
+		//Execute code
+		global.year = parseInt(document.getElementById("year-input").value);
+		console.log(`Loading current mapmode for ${global.year}`);
 		
+		clearMap();
+		eval(main.map_codemirror_obj.editor.getValue());
 	}
 }
