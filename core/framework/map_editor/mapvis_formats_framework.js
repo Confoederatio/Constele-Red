@@ -1,67 +1,63 @@
+//Initialise classes
+//[WIP] - Refactor at a later point
 class GeoPNG {
-	constructor(arg0_options) {
-		// Convert from parameters
+	constructor (arg0_options) {
+		//Convert from parameters
 		var options = arg0_options ? arg0_options : {};
 		
 		// Initialise options
-		if (!options.format) options.format = `int`; // Default format
-		if (!options.height) options.height = 4320;
-		if (!options.width) options.width = 2160;
 		if (!options.extent) options.extent = [-180, -90, 180, 90];
+		if (!options.format) options.format = "int"; // Default format
+		if (!options.height) options.height = 4320;
 		if (!options.scaling) options.scaling = 0.05;
+		if (!options.width) options.width = 2160;
 		
-		// Declare local instance variables
+		//Declare local instance variables
 		this.material = new THREE.MeshPhongMaterial();
 		this.options = options;
-		
 		this.scene_config = {
 			postProcess: {
 				enable: true,
 				antialias: { enable: true }
 			}
 		};
-		
 		this.three_layer = new maptalks.ThreeLayer(options.file_path, {
 			forceRenderOnMoving: true,
 			forceRenderOnRotating: true
 		});
+			this.three_layer.prepareToDraw = (gl, scene, camera) => {
+				// Add light
+				var light = new THREE.DirectionalLight(0xffffff);
+				light.position.set(0, -10, 10).normalize();
+				scene.add(light);
+				
+				// Extent
+				var extent = new maptalks.Extent(...options.extent);
+				
+				// Create GeoPNG_Primitive, pass getRGBData as a function
+				this.geopng_obj = new GeoPNG_Primitive(extent, {
+					texture: options.file_path,
+					imageWidth: options.width,
+					imageHeight: options.height,
+					getRGBData: this.getRGBData.bind(this)
+				}, this.material, this.three_layer);
+				
+				this.three_layer.addMesh(this.geopng_obj);
+				
+				// Animation
+				this.animation();
+				
+				// Set Z scale
+				this.geopng_obj.getObject3d().scale.z = options.scaling / 1000;
+			};
 		
-		this.three_layer.prepareToDraw = (gl, scene, camera) => {
-			// Add light
-			var light = new THREE.DirectionalLight(0xffffff);
-			light.position.set(0, -10, 10).normalize();
-			scene.add(light);
-			
-			// Extent
-			var extent = new maptalks.Extent(...options.extent);
-			
-			// Create GeoPNG_Primitive, pass getRGBData as a function
-			this.geopng_obj = new GeoPNG_Primitive(extent, {
-				texture: options.file_path,
-				imageWidth: options.width,
-				imageHeight: options.height,
-				getRGBData: this.getRGBData.bind(this)
-			}, this.material, this.three_layer);
-			
-			this.three_layer.addMesh(this.geopng_obj);
-			
-			// Animation
-			this.animation();
-			
-			// Set Z scale
-			this.geopng_obj.getObject3d().scale.z = options.scaling / 1000;
-		};
-		
-		// Add to group layer
+		//Add to group layer
+		this.canvas = document.createElement("canvas");
 		this.group_layer = new maptalks.GroupGLLayer(options.file_path, [this.three_layer], {
 			sceneConfig: this.scene_config,
 			single: false
 		});
 		this.group_layer.addTo(map, { single: false });
-		
-		// Canvas and texture loader for image processing
-		this.canvas = document.createElement("canvas");
-		this.texture_loader = new THREE.TextureLoader();
 		this.tile_size = 256;
 	}
 	
@@ -72,25 +68,33 @@ class GeoPNG {
 		requestAnimationFrame(this.animation);
 	}
 	
-	static generateImage(image) {
+	static generateImage (arg0_image) {
+		//Convert from parameters
+		var image = arg0_image;
+		
+		//Internal guard clause if image is undefined
 		if (!image) return null;
-		let img;
-		if (typeof image === "string") {
-			img = new Image();
-			img.src = image;
-		} else if (image instanceof HTMLCanvasElement) {
+		var img;
+		
+		//Parse image based on type
+		if (image instanceof HTMLCanvasElement) {
 			img = new Image();
 			img.src = image.toDataURL();
 		} else if (image instanceof Image) {
 			img = new Image();
 			img.src = image.src;
 			img.crossOrigin = image.crossOrigin;
+		} else if (typeof image === "string") {
+			img = new Image();
+			img.src = image;
 		}
 		if (img && !img.crossOrigin) img.crossOrigin = "Anonymous";
+		
+		//Return statement
 		return img;
 	}
 	
-	getRGBData(image, width = this.tile_size, height = this.tile_size) {
+	getRGBData (image, width = this.tile_size, height = this.tile_size) {
 		this.canvas.width = width;
 		this.canvas.height = height;
 		const ctx = this.canvas.getContext("2d");
