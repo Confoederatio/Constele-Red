@@ -8,6 +8,7 @@
 		main.map_codemirror_obj = {
 			editor: CodeMirror.fromTextArea(codemirror_el, {
 				lineNumbers: true,
+				lineWrapping: true,
 				mode: "javascript",
 				theme: "nord"
 			}),

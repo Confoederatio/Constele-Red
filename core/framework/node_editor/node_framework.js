@@ -298,6 +298,7 @@
 		//Actual editor
 		var codemirror_editor = CodeMirror(codemirror_el, {
 			lineNumbers: true,
+			lineWrapping: true,
 			mode: "javascript",
 			theme: "nord",
 			value: "//Actual Interface"
