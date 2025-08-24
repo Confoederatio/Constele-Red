@@ -10,7 +10,7 @@ global.loadStadester = function () {
 		
 		var stadester_geometries = [];
 		var label_geometries = [];
-		global.uud_file_path = `./mapmodes/stadester/processed_stadester_cities.json`;
+		global.uud_file_path = `./mapmodes/stadester/data/processed_stadester_cities.json`;
 		global.uud_obj = JSON.parse(fs.readFileSync(uud_file_path, "utf8"));
 		
 		//Iterate over all_countries
@@ -38,7 +38,7 @@ global.loadStadester = function () {
 							if (all_population_keys[y] <= global.year)
 								local_population = local_city.population[all_population_keys[y]];
 						
-						if (local_population) {
+						if (local_population != 0) {
 							//console.log(local_city.coords);
 							stadester_geometries.push(new maptalks.Circle(center.add([
 								returnSafeNumber(local_city.coords[1]),

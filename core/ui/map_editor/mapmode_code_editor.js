@@ -86,6 +86,8 @@
 					main.map_codemirror_obj.file = selected_text;
 					refreshSelectMapmode();
 					try {
+						if (global.year == undefined) global.year = parseInt(document.querySelector(`#year-input`).value);
+						
 						codemirror_obj.editor.setValue(readMapmodeFile(e.target.value));
 						clearMap();
 						eval(main.map_codemirror_obj.editor.getValue());
