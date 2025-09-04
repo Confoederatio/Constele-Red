@@ -10,7 +10,7 @@ global.loadStadester = function () {
 		
 		var stadester_geometries = [];
 		var label_geometries = [];
-		global.uud_file_path = `./mapmodes/stadester/data/processed_stadester_cities.json`;
+		global.uud_file_path = `./mapmodes/stadester/data/stadester.json`;
 		global.uud_obj = JSON.parse(fs.readFileSync(uud_file_path, "utf8"));
 		
 		//Iterate over all_countries
