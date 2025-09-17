@@ -29,6 +29,6 @@ new GeoPNG({
     width: 4320,
     height: 2160,
     extent: [-180, -90, 180, 90],
-    scaling: 0.05 // Z scale, where 1000 = 1m
+    scaling: 20 // Z scale, where 1000 = 1m
     // format: 'int', // optional, default is 'int'
 });
