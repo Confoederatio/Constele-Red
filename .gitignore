@@ -1,3 +1,4 @@
 node_modules
 mapmodes/cliopatria/cliopatria_polities_only.geojson
 mapmodes/stadester/data/stadester.json
+mapmodes/stadester/data/flattened_stadester_cities_non_metro_corrected.json
